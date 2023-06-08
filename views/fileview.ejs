@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File View</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        margin: 20px;
+      }
+
+      .table-container {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">CSV Uploader</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="container">
+        <h1>File View</h1>
+        <form>
+          <div class="form-group">
+            <label for="search">Search:</label>
+            <input
+              type="text"
+              id="search"
+              class="form-control"
+              name="search"
+              placeholder="Enter search term"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+
+      <div class="container table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <% Object.keys(file[0]).forEach(function(key) { %>
+              <th><%= key %></th>
+              <% }) %>
+            </tr>
+          </thead>
+          <tbody>
+            <% file.forEach(function(obj) { %>
+            <tr>
+              <% Object.values(obj).forEach(function(value) { %>
+              <td><%= value %></td>
+              <% }) %>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      // Wait for the DOM to load
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the search input element
+        var searchInput = document.getElementById("search");
+
+        // Get all table rows in the tbody
+        var rows = document.querySelectorAll("tbody tr");
+
+        // Function to filter rows based on the search term
+        function filterRows() {
+          var searchTerm = searchInput.value.toLowerCase();
+
+          // Loop through each row and hide/show based on the search term
+          rows.forEach(function (row) {
+            var rowData = row.innerHTML.toLowerCase();
+
+            if (rowData.indexOf(searchTerm) !== -1) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        }
+        // Add an event listener to the search input
+        searchInput.addEventListener("input", filterRows);
+      });
+    </script>
+  </body>
+</html>
